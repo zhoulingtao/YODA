@@ -13,7 +13,6 @@ import subprocess
 import json
 from pathlib import Path
 
-from cms_scan import cms_scan
 from analysis_wp_plugin import Analysis_WP_Plugin
 from analysis_jo_plugin import Analysis_Jo_Plugin
 from analysis_dr_plugin import Analysis_Dr_Plugin
@@ -52,13 +51,13 @@ mal_plugin_analyses = [
         Analysis_Shell_Detect(),       # Webshells in plugins
         Analysis_FC_Plugin(),          # Function Construction
         Analysis_Spam_Plugin(),        # Spam Injection
-        Analysis_BlackhatSEO_Plugin(), # Blackhat SEO
+        Analysis_BlackhatSEO_Plugin,
         Analysis_API_Abuse(),          # Abuse of WP API
         Analysis_Covid_Plugin(),       # COVID-19
         Analysis_Downloader_Plugin(),  # Downloaders
         Analysis_Gated_Plugin(),       # Gated Plugins
-        Analysis_Bot_SEO(),            # SEO against Google bot 
-        Analysis_NewDown_Plugin(),     # Nulled Plugin 
+        Analysis_Bot_SEO(),            # SEO against Google bot
+        Analysis_NewDown_Plugin(),     # Nulled Plugin
         Analysis_Corona()              # Coronavirus regex
         # Analysis_Out_Extract()         # Extract Outputs
 ]
@@ -534,19 +533,6 @@ class Framework():
         # Create worker pool so the workers are alive for all commits
         p = Pool(cpu_count())
 
-        if self.website.cms not in ["WordPress", "Drupal", "Joomla"]:
-            website_output = self.process_outputs(self.website, None, "noCMS", analysis_start)
-            if 'ENVIRONMENT' in os.environ:
-                pass
-            else:
-            # Save output in local tests
-                op_path = "results/" + self.website.website_path.split('/')[-2] + ".json.gz"
-                if not os.path.isdir('results'):     # mkdir results if not exists
-                    os.makedirs('results')
-
-                with gzip.open(op_path, 'w') as f:
-                   f.write(json.dumps(website_output, default=str).encode('utf-8'))
-            return
             
 
         if not repo.bare:
@@ -582,7 +568,8 @@ class Framework():
                
                 # If first commit had no files, cms will be unassigned. Reassign CMS 
                 if flag and self.website.cms == None:
-                    self.website.cms, self.website.cms_version  = cms_scan(self.website.website_path)
+                    self.website.cms="Durpal"
+                    self.website.cms_version  = 0.4
                     flag = False 
 
                 # processCommit
@@ -831,7 +818,6 @@ class Framework():
 def DoMalFileDetect(pf_obj):
     with open(pf_obj.filepath, 'r', errors="ignore") as f:
         read_data = f.read()
-
     try:    # Generate AST for Analysis Passes
         cmd = [
                   'php',
@@ -839,20 +825,14 @@ def DoMalFileDetect(pf_obj):
                   './analysis_passes/generateAST.php',
                   pf_obj.filepath
               ]
-        
-        pf_obj.ast = subprocess.check_output(cmd)  
-
+        pf_obj.ast = subprocess.check_output(cmd)
     except Exception as e:
-        print("ENCOUNTERED EXCEPTION {} FOR {}".format(e, pf_obj.filepath)) 
-
+        print("ENCOUNTERED EXCEPTION {} FOR {}".format(e, pf_obj.filepath))
     for reanalysis in mal_plugin_analyses:
         reanalysis.reprocessFile(pf_obj, read_data)
-
     pf_obj.ast=None # mem cleanup
-
     if pf_obj.suspicious_tags:
         pf_obj.is_malicious = True
-
     return pf_obj
 
 def DoFileOperations(f_obj, cms):
