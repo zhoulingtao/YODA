@@ -33,6 +33,7 @@ class Analysis_Bot_SEO(BaseAnalysisClass):
         self.pattern17 = re.compile(r'HTTP_USER_AGENT') 
 
     def reprocessFile(self, pf_obj, r_data):
+        global susp
         lines = r_data.splitlines()
         comment_block = False
         for line in lines:

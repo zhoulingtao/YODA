@@ -9,14 +9,7 @@ class Analysis_API_Abuse(BaseAnalysisClass):
                         './analysis_passes/api_parser.php'
                       ]
 
-  def reprocessFile(self, pf_obj, lines=None):
-    if 'php' not in pf_obj.mime_type:                               # only process if PHP
-      return
-    
-    elif pf_obj.ast is None:                               # can't process without an AST
-      return
-
-    else:                                                              # Detect API Abuse
+  def reprocessFile(self, pf_obj, lines=None):                                                           # Detect API Abuse
       try:                                                                   # Run Parser
         api_parser = subprocess.Popen(
                                       self.parser_cmd, 

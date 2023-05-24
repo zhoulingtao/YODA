@@ -15,7 +15,7 @@ class Analysis_Obf_Plugin(BaseAnalysisClass):
         self.pattern1 = re.compile(r'\$[0Oo]+[{=]')
         self.pattern2 = re.compile(r'\$__=\$__.')
         self.pattern3 = re.compile(r'base64_decode[\s\(]')
-        self.pattern4 = re.compile(r'/\*[a-z0-9]+\*/') #/*6g33*/ pattern 
+        self.pattern4 = re.compile(r'/\*[a-z0-9]+\*/') #/*6g33*/ pattern
         self.pattern5 = re.compile(r'eval[\s\(]')
         self.pattern6 = re.compile(r'^[A-Za-z0-9]+$') #Jumbled letters and numbers only in the entire line
         self.pattern7 = re.compile(r'my_sucuri_encoding') # Legit sucuri file that look slike bad file
@@ -23,7 +23,7 @@ class Analysis_Obf_Plugin(BaseAnalysisClass):
         self.pattern9 = re.compile(r'chr\([0-9]+\)') # int to ascii
         self.pattern12 = re.compile(r'gzinflate[\s\(]') # int to ascii
         self.pattern15 = re.compile(r'\$[li]+[{=]')
-
+        self.pattern16 = re.compile(r'\\x[0-9]{2}')
     def reprocessFile(self, pf_obj, r_data):
         #print(r_data)
         # Check if file contents are obfuscated
@@ -49,6 +49,7 @@ class Analysis_Obf_Plugin(BaseAnalysisClass):
         #print("P12", p12)
         p15 = re.findall(self.pattern15, r_data)
         #print("P15", p15)
+        p16 = re.findall(self.pattern16, r_data)
         susp = False
         p10=None
         p11=None
@@ -94,10 +95,10 @@ class Analysis_Obf_Plugin(BaseAnalysisClass):
                 if p11 and len(current_line) > 700:
                     p11.append("long_line")
                     p11.append(len(current_line))
-                    susp = True 
+                    susp = True
                     break
                 if len(p15)>10 and len(current_line) > 1000:
-                    susp = True 
+                    susp = True
                     break
 
                 if len(p10) > 15:
@@ -111,16 +112,16 @@ class Analysis_Obf_Plugin(BaseAnalysisClass):
         # Test this p1 tested. Test the others
         if (len(p1) > 10) or (len(p2) > 10) or  (p3 and p4 and p5) or (len(p8)>10) or (susp) or (len(p4)>15) or len(p15)>10:
             pf_obj.suspicious_tags.append("OBF")
-            pf_obj.extracted_results["OBF"] = [p1,p2,p3, p4,p5,p6,p7,p8,p10,p11, p12,p13,p14, p15]
+            pf_obj.extracted_results["OBF"] = [1,p1,2,p2,3,p3,4,p4,5,p5,6,p6,7,p7,8,p8,9,p9,10,p10,11,p11,12,p12,13,p13,14,p14,15,p15,16,p16]
         elif p6:
             if ((len(p6[0]) > 25) and (len(p6) > 30 ) and (len(p5)>0) and (len(p7)==0)):
                 pf_obj.suspicious_tags.append("OBF")
-                pf_obj.extracted_results["OBF"] = [p1,p2,p3, p4,p5,p6,p7,p8,p10, p11,p12,p13,p14, p15]
+                pf_obj.extracted_results["OBF"] = [1,p1,2,p2,3,p3,4,p4,5,p5,6,p6,7,p7,8,p8,9,p9,10,p10,11,p11,12,p12,13,p13,14,p14,15,p15,16,p16]
         else:
             if "OBF" in pf_obj.suspicious_tags:
                 pf_obj.suspicious_tags.remove("OBF")
-    
-        
+
+
 
 
 if __name__=='__main__':  # for debug only
